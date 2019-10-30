@@ -1,0 +1,9 @@
+.footer-area{
+  background: bisque;
+  height: 88px;
+  display: flex;
+  &_info{
+    display: flex;
+    justify-content: center;
+  }
+}
