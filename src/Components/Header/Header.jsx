@@ -1,7 +1,13 @@
-import React from 'react'
+import React, {Component} from 'react'
 import header from '../../scss/Header/header.scss'
 
-export const Header = () => {
+export default class Content extends Component {
+    time=()=>{
+        let data=new Date();
+        return data.getHours() + ':' + data.getMinutes() + ':' + data.getSeconds()
+    };
+    render(){
+
     return (
         <header className="header-area">
             <div className="header-area_logo">
@@ -12,9 +18,10 @@ export const Header = () => {
             </div>
             <div className="header-area_time">
                 <div className="header-area_time-area">
-                    Time
+                    <p>Time:{this.time()}</p>
                 </div>
             </div>
         </header>
     );
 };
+}
