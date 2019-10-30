@@ -25,10 +25,26 @@
           height: 100%;
         }
         &-btnArea{
-          width: 85%;
+          width: 75%;
           height: 100%;
           display: flex;
           justify-content: flex-end;
+          &-btnSubmit{
+            &_hidden {
+              display: none;
+            }
+          }
+          &-btn{
+            &_hidden {
+              display: none;
+            }
+          }
+        }
+        &-btn{width: 10%}
+        &-input{
+          &_hidden {
+            display: none;
+          }
         }
       }
       &-twitShowArea{

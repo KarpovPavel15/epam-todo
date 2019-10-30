@@ -2,16 +2,30 @@ import React,{Component} from 'react'
 import '../../scss/Content/content.scss'
 
 export default class Content extends Component {
-    state={
-      inputType:"hidden"
-    };
+    constructor(props) {
+        super(props);
+
+        this.state={
+            listOfMessage:[],
+            hidden: false
+        };
+
+        this.onSubmit = this.onSubmit.bind(this);
+    }
+
     onClick=()=>{
         this.setState(
             {
-                inputType:"text",
+                hidden:true,
             });
-        document.getElementById("hiddenId3").hidden=false;
-        document.getElementById("hiddenId4").hidden=true;
+    };
+
+    onSubmit=(event)=>{
+        this.setState(
+            {
+                hidden:false,
+            });
+        event.preventDefault();
     };
     // toggleFun=(event)=>{
     //     let target=event.target;
@@ -28,6 +42,7 @@ export default class Content extends Component {
     // };
 
     render() {
+        const { hidden } = this.state;
         return(
             <main className="content-area">
                 <div className="content-area_main">
@@ -35,13 +50,15 @@ export default class Content extends Component {
                         <div className="content-area_main-twitArea-textArea">
                             <p className="content-area_main-twitArea-textArea-txt">All tips</p>
                         </div>
-                        <div className="content-area_main-twitArea-btnArea">
-                            <input id="hiddenId" className="content-area_main-twitArea-btnArea-titleInput" type={this.state.inputType}/>
-                            <input id="hiddenId" className="content-area_main-twitArea-btnArea-descriptionInput" type={this.state.inputType}/>
-                            <button id="hiddenId3" className="content-area_main-twitArea-btnArea-btnSubmit" hidden >Submit</button>
-                            <button id="hiddenId4" className="content-area_main-twitArea-btnArea-btn" onClick={()=>this.onClick()}>
-                                Add tips
-                            </button>
+                        <form className="content-area_main-twitArea-btnArea">
+                            <input name="title" className={!hidden ? "content-area_main-twitArea-input_hidden" : "content-area_main-twitArea-btnArea-titleInput"}/>
+                            <input name="description" className={!hidden ? "content-area_main-twitArea-input_hidden" : "content-area_main-twitArea-btnArea-titleInput"}/>
+                            <button onClick={(event => this.onSubmit(event) )} className={!hidden ? "content-area_main-twitArea-btnArea-btnSubmit_hidden" : "content-area_main-twitArea-btnArea-btnSubmit"}>Submit</button>
+                        </form>
+                        <div className="content-area_main-twitArea-btn">
+                        <button id="hiddenId4" className={!hidden ?  "content-area_main-twitArea-btnArea-btn" : "content-area_main-twitArea-btnArea-btn_hidden"} onClick={()=>this.onClick()}>
+                            Add tips
+                        </button>
                         </div>
                     </div>
                     <div className="content-area_main-twitShowArea">
