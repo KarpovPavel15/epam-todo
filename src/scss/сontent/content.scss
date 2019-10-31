@@ -57,12 +57,33 @@
           flex-direction: row;
           &_block1{
             width: 30%;
+            border: 1px solid gainsboro;
+            &-titleMessage{
+              border: 1px solid gainsboro;
+            }
+            &-message{
+
+            }
           }
           &_block2{
             width: 50%;
+            border: 1px solid gainsboro;
+            &-descriptionMessage{
+              border: 1px solid gainsboro;
+            }
+            &-message{
+
+            }
           }
           &_block3{
             width: 20%;
+            border: 1px solid gainsboro;
+            &-actionMessage{
+              border: 1px solid gainsboro;
+            }
+            &-action{
+
+            }
           }
         }
       }
