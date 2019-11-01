@@ -1,20 +1,44 @@
 import React, {Component} from 'react'
-import '../../scss/сontent/content.scss'
+import './content.scss'
+import HeaderButtons from '../HeaderButtons'
+import FirstBlock from '../FirstBlock'
+import SecondBlock from '../SecondBlock'
+import ThirdBlock from '../ThirdBlock'
 
 export default class Content extends Component {
     state = {
         listOfMessage: [],
-        hidden: false,
-        title: "",
-        description: "",
-        index: 1
+        hidden: true,
+        title:'',
+        description:'',
+        editing:false,
+        selectedIndex: null,
     };
+    isDone=(index)=>{
+        const {listOfMessage}=this.state;
 
+        listOfMessage[index].done = !listOfMessage[index].done;
+
+        this.setState({
+            listOfMessage: listOfMessage,
+        });
+
+
+    };
     onClick = () => {
         this.setState(
             {
-                hidden: true,
+                hidden: false,
             });
+    };
+
+
+    deletePost = (index) => {
+        const {listOfMessage} = this.state;
+        listOfMessage.splice(index, 1);
+        this.setState({
+            listOfMessage
+        })
     };
 
     titleInput = (event) => {
@@ -24,19 +48,10 @@ export default class Content extends Component {
         })
     };
 
-    descriptionInput = ({target: {value: description}}) => {
-        //let description=event.target.value;
-        console.log(description);
+    descriptionInput = (event) => {
+        let description=event.target.value;
         this.setState({
             description
-        })
-    };
-
-    deletePost = (index) => {
-        const {listOfMessage} = this.state;
-        listOfMessage.splice(index, 1)
-        this.setState({
-            listOfMessage
         })
     };
 
@@ -45,20 +60,47 @@ export default class Content extends Component {
 
         let obj = {
             title,
-            description
+            description,
+            done:false
         };
-        listOfMessage.push(obj);
+        if ( title !== '' && description !== '' ) {
+            listOfMessage.push(obj);
+        } else alert('Fill all fields ПЛЕАЗЕ');
+
         this.setState({
-            title: "",
-            description: "",
             hidden: false,
             listOfMessage,
         });
         event.preventDefault();
     };
+    editPost=(index)=>{
+        const {listOfMessage}=this.state;
+        const message=listOfMessage[index];
+        this.setState({
+            selectedIndex:index,
+            editing:true,
+            title:message.title,
+            description:message.description
+        })
+    };
+    onEdit=(event)=>{
+        const {selectedIndex,listOfMessage,title,description}=this.state;
+
+        listOfMessage[selectedIndex] = {
+            title,
+            description
+        };
+
+        this.setState({
+            listOfMessage: listOfMessage,
+            editing:false,
+        });
+
+        event.preventDefault();
+    };
 
     render() {
-        const {hidden, title, description, listOfMessage} = this.state;
+        const {hidden, listOfMessage,title,description,editing} = this.state;
         return (
             <main className="content-area">
                 <div className="content-area_main">
@@ -66,19 +108,17 @@ export default class Content extends Component {
                         <div className="content-area_main-twitArea-textArea">
                             <p className="content-area_main-twitArea-textArea-txt">All tips</p>
                         </div>
-                        <div className="content-area_main-twitArea-btnArea">
-                            <input value={title} onChange={this.titleInput} hidden={!hidden} name="title"
-                                   className="content-area_main-twitArea-btnArea-titleInput"/>
-                            <input value={description} hidden={!hidden} onChange={this.descriptionInput}
-                                   name="description"
-                                   className="content-area_main-twitArea-btnArea-titleInput"/>
-                            <button onClick={this.onSubmit} hidden={!hidden}
-                                    className="content-area_main-twitArea-btnArea-btnSubmit">Submit
-                            </button>
-                        </div>
+                        <HeaderButtons
+                            hidden={hidden}
+                            onSubmit={!editing ? this.onSubmit : this.onEdit}
+                            titleInput={this.titleInput}
+                            descriptionInput={this.descriptionInput}
+                            title={title}
+                            description={description}
+                        />
                         <div className="content-area_main-twitArea-btn">
                             <button id="hiddenId4"
-                                    className={!hidden ? "content-area_main-twitArea-btnArea-btn" : "content-area_main-twitArea-btnArea-btn_hidden"}
+                                    hidden={!hidden}
                                     onClick={this.onClick}>
                                 Add tips
                             </button>
@@ -86,48 +126,9 @@ export default class Content extends Component {
                     </div>
                     <div className="content-area_main-twitShowArea">
                         <div className="content-area_main-twitShowArea-second">
-                            <div className="content-area_main-twitShowArea-second_block1">
-                                <div className="content-area_main-twitShowArea-second_block1-titleMessage">
-                                    Title
-                                </div>
-                                <div className="content-area_main-twitShowArea-second_block1-message">
-                                    {listOfMessage.map((obj) =>
-                                        <div className="content-area_main-twitShowArea-second_block1-message-title">
-                                            {obj.title}
-                                        </div>
-                                    )}
-                                </div>
-                            </div>
-                            <div className="content-area_main-twitShowArea-second_block2">
-                                <div className="content-area_main-twitShowArea-second_block2-descriptionMessage">
-                                    Description
-                                </div>
-                                <div className="content-area_main-twitShowArea-second_block2-message">
-                                    {listOfMessage.map((obj) =>
-                                        <div
-                                            className="content-area_main-twitShowArea-second_block2-message-description">
-                                            {obj.description}
-                                        </div>
-                                    )}
-                                </div>
-                            </div>
-                            <div className="content-area_main-twitShowArea-second_block3">
-                                <div className="content-area_main-twitShowArea-second_block3-actionMessage">
-                                    Action
-                                </div>
-                                <div className="content-area_main-twitShowArea-second_block3-action">
-                                    {listOfMessage.map((index) =>
-                                        <div className="content-area_main-twitShowArea-second_block2-message-buttons">
-                                            <button onClick={() => this.deletePost(index)}>
-                                                Delete
-                                            </button>
-                                            <button>
-                                                Edit
-                                            </button>
-                                        </div>
-                                    )}
-                                </div>
-                            </div>
+                            <FirstBlock list={listOfMessage} isDone={this.isDone}/>
+                            <SecondBlock list={listOfMessage}/>
+                            <ThirdBlock list={listOfMessage} deletePost={this.deletePost} editPost={this.editPost}/>
                         </div>
                     </div>
                 </div>

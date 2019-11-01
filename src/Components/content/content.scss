@@ -1,7 +1,7 @@
 .content-area {
   display: flex;
   width: 100%;
-  height: 500px;
+  height: 549px;
   justify-content: center;
   background: burlywood;
 
@@ -49,43 +49,65 @@
       }
       &-twitShowArea{
         height: 85%;
-        &-second{
+        &-second {
           margin: 15px 15px 0px 15px;
           height: 90%;
           border: 2px solid gainsboro;
           display: flex;
           flex-direction: row;
-          &_block1{
+
+          &_block1 {
             width: 30%;
             border: 1px solid gainsboro;
-            &-titleMessage{
+
+            &-titleMessage {
               border: 1px solid gainsboro;
             }
-            &-message{
 
+            &-message {
+              height: 360px;
+              overflow: overlay;
+
+              &-title {
+                &_done {
+                  background-color: green;
+                }
+              }
             }
           }
-          &_block2{
+
+          &_block2 {
             width: 50%;
             border: 1px solid gainsboro;
-            &-descriptionMessage{
+
+            &-descriptionMessage {
               border: 1px solid gainsboro;
             }
-            &-message{
 
+            &-message {
+              height: 360px;
+              overflow: overlay;
             }
           }
-          &_block3{
+
+          &_block3 {
             width: 20%;
             border: 1px solid gainsboro;
-            &-actionMessage{
+
+            &-actionMessage {
               border: 1px solid gainsboro;
             }
-            &-action{
 
+            &-action {
+              height: 360px;
+              overflow: overlay;
+              &-buttons{
+                display: flex;
+                height: 21.6px;
+              }
             }
           }
         }
+        }
       }
   }
-}

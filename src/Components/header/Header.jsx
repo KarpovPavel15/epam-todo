@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import header from '../../scss/header/header.scss'
+import header from './header.scss'
 
 export default class Content extends Component {
     time=()=>{
